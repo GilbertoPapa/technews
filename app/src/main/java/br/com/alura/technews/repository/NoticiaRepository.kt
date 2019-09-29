@@ -1,5 +1,8 @@
 package br.com.alura.technews.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import br.com.alura.technews.asynctask.BaseAsyncTask
 import br.com.alura.technews.database.dao.NoticiaDAO
 import br.com.alura.technews.model.Noticia
@@ -10,12 +13,19 @@ class NoticiaRepository(
     private val webclient: NoticiaWebClient = NoticiaWebClient()
 ) {
 
-    fun buscaTodos(
-        quandoSucesso: (List<Noticia>) -> Unit,
-        quandoFalha: (erro: String?) -> Unit
-    ) {
-        buscaInterno(quandoSucesso)
-        buscaNaApi(quandoSucesso, quandoFalha)
+    private val noticiasEncontradas = MutableLiveData<List<Noticia>>()
+
+    fun buscaTodos() : LiveData<List<Noticia>> {
+
+        buscaInterno(quandoSucesso = {
+            noticiasEncontradas.value = it
+        })
+        buscaNaApi(quandoSucesso ={
+            noticiasEncontradas.value = it
+        }, quandoFalha={
+        })
+
+        return noticiasEncontradas
     }
 
     fun salva(
@@ -67,8 +77,13 @@ class NoticiaRepository(
 
     private fun buscaInterno(quandoSucesso: (List<Noticia>) -> Unit) {
         BaseAsyncTask(quandoExecuta = {
+
+            Log.i("teste", "buscando notícias no banco")
+            Thread.sleep(5000)
             dao.buscaTodos()
-        }, quandoFinaliza = quandoSucesso)
+        }, quandoFinaliza = {
+            Log.i("teste", "finalizou busca")
+            quandoSucesso(it)})
             .execute()
     }
 
