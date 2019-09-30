@@ -6,11 +6,12 @@ import br.com.alura.technews.repository.NoticiaRepository
 import br.com.alura.technews.ui.viewmodel.ListaNoticiasViewModel
 
 /**
- * Created by GilbertoPapa on 29/09/2019.
+ * Created by GilbertoPapa on 30/09/2019.
  */
-    class ListaNoticiasViewModelFactory (private val repository: NoticiaRepository): ViewModelProvider.Factory {
+class FormularioNoticiaViewModelFactory (private val repository: NoticiaRepository):ViewModelProvider.Factory{
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ListaNoticiasViewModel(repository)as T
+        return ListaNoticiasViewModel(repository) as T
     }
+
 }
