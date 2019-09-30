@@ -12,7 +12,6 @@ import br.com.alura.technews.R
 import br.com.alura.technews.database.AppDatabase
 import br.com.alura.technews.model.Noticia
 import br.com.alura.technews.repository.NoticiaRepository
-import br.com.alura.technews.repository.Resource
 import br.com.alura.technews.ui.activity.extensions.mostraErro
 import br.com.alura.technews.ui.recyclerview.adapter.ListaNoticiasAdapter
 import br.com.alura.technews.ui.viewmodel.ListaNoticiasViewModel
@@ -24,9 +23,7 @@ private const val MENSAGEM_FALHA_CARREGAR_NOTICIAS = "Não foi possível carrega
 
 class ListaNoticiasActivity : AppCompatActivity() {
 
-  /*  private val repository by lazy {
-        NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
-    }*/
+
     private val adapter by lazy {
         ListaNoticiasAdapter(context = this)
     }
@@ -81,13 +78,8 @@ class ListaNoticiasActivity : AppCompatActivity() {
             resource.erro?.let { mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS) }
 
             Log.i("teste", "atualizando noticias")
-            adapter.atualiza(it) })
+             })
 
-        /*  quandoSucesso = {
-
-            }, quandoFalha = {
-
-            }*/
     }
 
     private fun abreFormularioModoCriacao() {
